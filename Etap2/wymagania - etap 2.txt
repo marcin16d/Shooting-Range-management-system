@@ -1,0 +1,17 @@
+Punkty oznaczone * s¹ obowi¹zkowe/wymagane.
+1*. Diagram ERD:
+a) Zgodnoœæ modelu z wymaganiami z etapu I
+b) Wybór encji (obiektów) i ich atrybutów.
+
+2*. Projekt fizyczny bazy danych.
+Projekt fizyczny bazy danych nale¿y wykonaæ z wykorzystaniem Toad Data Modeler (wersja czasowa);
+a) zdefiniowanie przestrzeni roboczych WORKSPACES (dotyczy du¿ych projektów);
+b) zdefiniowanie przestrzeni tabel TABLESPACES;
+c)* zdefiniowanie dziedzin (zbiorów dopuszczalnych wartoœci) DOMAINS;
+d) zdefiniowanie regu³ sprawdzania danych CHECK CONSTRAINT RULES;
+e)* zdefiniowanie grup u¿ytkowników (ról) bazy danych USER GROUPS;
+f)* zdefiniowanie u¿ytkowników (USERS);
+g)* zdefiniowanie tabel ENTITIES oraz zale¿noœci miêdzy tabelami RELATIONS (z uwzglêdnieniem w³asnoœci tabel, w tym przede wszystkim kluczy podstawowych, obcych);
+h) zdefiniowanie sekwencji SEQUENCES (min. 5);
+i)* przypisanie grupom u¿ytkowników/u¿ytkownikom uprawnieñ do okreœlonych czynnoœci (np. INSERT, SELECT) wykonywanych na obiektach bazy danych (np. tabelach);
+j)* zdefiniowanie widoków/perspektyw VIEWS (min. 5);

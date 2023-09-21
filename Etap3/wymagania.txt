@@ -1,0 +1,21 @@
+Punkty oznaczone * s¹ obowi¹zkowe/wymagane.
+
+1*. Uzupe³nienie tabel danymi (min. 25 tyœ. rekordów).
+Dane mog¹ zostaæ uzupe³nione z wykorzystaniem dedykowanych generatorów lub mo¿na w tym celu napisaæ funkcjê Pl/PgSQL generuj¹c¹ dane dla tabel (zad. 4).
+2*. Projektowanie operacji na danych.
+Operacje na danych powinny byæ zaprojektowane zgodnie z wymaganiami u¿ytkownika (etap I projektu). Na tym etapie mog¹ one zostaæ uszczegó³owione b¹dŸ zmodyfikowane.
+a) zdefiniowanie kwerend prostych (min. 5);
+b) zdefiniowanie kwerend z³o¿onych /agregacje, z³¹czenia, podzapytania/ (min. 10);
+Zaprojektowane kwerendy powinny byæ zapisane w bazie danych jako widoki pod nazw¹ np. kwerenda_A1_query, kwerenda_A2_query ... kwerenda_A5_query, kwerenda_B1_query ... kwerenda_B10_query.
+
+3*. Implementacja wyzwalaczy (min. 3).
+
+4*. Projektowanie i implementacja funkcji w jêzyku proceduralnym Pl/pgSQL (min. 3).
+Implementowane funkcje powinny realizowaæ czynnoœci/zadania, których realizacja nie jest mo¿liwa wy³¹cznie z wykorzystaniem jêzyka SQL.
+
+5. Zdefiniowanie dokumentów graficznych (raportach) do przetwarzania i prezentacji danych (min. 3).
+Informacje generowane w raportach i ich struktura powinna odpowiadaæ dokumentom wymaganym przez klienta (zgodnie z wymaganiami okreœlonym w etapie 1). Do realizacji zadania nale¿y wykorzystaæ narzêdzie raportowania np. iReport Designer.
+
+
+Uwagi:
+Wszystkie tworzone w ramach pkt 2, 3 oraz 4 obiekty tj. kwerendy, funkcje itd. powinny byæ nietrywialne tzn. np. zapytania nie mog¹ mieæ formy SELECT * FROM uzytkownicy WHERE id_uzytkownika = 100. W ka¿dym z zadañ nale¿y przekrojowo wykorzystaæ pe³ne mo¿liwoœci jêzyków SQL oraz proceduralnego SQL (patrz zajêcia laboratoryjne Bazy danych - Laboratorium).

@@ -1,0 +1,1073 @@
+﻿Zapytania pochodzą z pgadmin4 2.0
+Pierwsze 3 tabele (hala, logi_klient, logi_zawody) zostały stworzone na potrzeby wyzwalaczy
+
+
+-- Table: public.hala
+
+-- DROP TABLE public.hala;
+
+CREATE TABLE public.hala
+(
+    id integer NOT NULL DEFAULT nextval('hala_id_seq'::regclass),
+    imie character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    nazwisko character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT hala_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.hala
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public.logi_klient
+
+-- DROP TABLE public.logi_klient;
+
+CREATE TABLE public.logi_klient
+(
+    id integer NOT NULL DEFAULT nextval('logi_klient_id_seq'::regclass),
+    id_klienta integer NOT NULL,
+    adres_stary integer,
+    adres_nowy integer,
+    imie_stary character varying(30) COLLATE pg_catalog."default",
+    imie_nowy character varying(30) COLLATE pg_catalog."default",
+    nazwisko_stary character varying(50) COLLATE pg_catalog."default",
+    nazwisko_nowy character varying(50) COLLATE pg_catalog."default",
+    pelnoletni_stary boolean,
+    pelnoletni_nowy boolean,
+    CONSTRAINT logi_klient_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.logi_klient
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public.logi_zawody
+
+-- DROP TABLE public.logi_zawody;
+
+CREATE TABLE public.logi_zawody
+(
+    id integer NOT NULL DEFAULT nextval('logi_zawody_id_seq'::regclass),
+    id_zawodow integer NOT NULL,
+    data_stara date,
+    data_nowa date,
+    rodzaj_stary character varying(15) COLLATE pg_catalog."default",
+    rodzaj_nowy character varying(15) COLLATE pg_catalog."default",
+    pierwsze_miejsce integer,
+    drugie_miejsce integer,
+    trzecie_miejsce integer,
+    CONSTRAINT logi_zawody_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.logi_zawody
+    OWNER to postgres;    
+
+----------------------------------------------------------------------------------------
+
+
+-- Database: postgres
+
+-- DROP DATABASE postgres;
+
+CREATE DATABASE postgres
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Polish_Poland.1250'
+    LC_CTYPE = 'Polish_Poland.1250'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+COMMENT ON DATABASE postgres
+    IS 'default administrative connection database';
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Adres"
+
+-- DROP TABLE public."Adres";
+
+CREATE TABLE public."Adres"
+(
+    id_adresu integer NOT NULL,
+    tel_kontaktowy character varying(11) COLLATE pg_catalog."default" NOT NULL,
+    miejsce_zamieszkania character varying(60) COLLATE pg_catalog."default" NOT NULL,
+    poczta character varying(6) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Adres_pkey" PRIMARY KEY (id_adresu)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Adres"
+    OWNER to postgres;    
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Bron"
+
+-- DROP TABLE public."Bron";
+
+CREATE TABLE public."Bron"
+(
+    id_broni integer NOT NULL,
+    nazwa character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    dostepnosc boolean NOT NULL,
+    serwis date NOT NULL,
+    zakupiony date NOT NULL,
+    CONSTRAINT "Bron_pkey" PRIMARY KEY (id_broni)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Bron"
+    OWNER to postgres;
+
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Druzyna"
+
+-- DROP TABLE public."Druzyna";
+
+CREATE TABLE public."Druzyna"
+(
+    id_druzyny integer NOT NULL,
+    nazwa character varying(60) COLLATE pg_catalog."default" NOT NULL,
+    imie_trenera character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    nazwisko_trenera character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Druzyna_pkey" PRIMARY KEY (id_druzyny)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Druzyna"
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Dyzury"
+
+-- DROP TABLE public."Dyzury";
+
+CREATE TABLE public."Dyzury"
+(
+    id_pracownika integer NOT NULL,
+    data date NOT NULL,
+    CONSTRAINT "Dyzury_pkey" PRIMARY KEY (id_pracownika, data),
+    CONSTRAINT id_pracownika FOREIGN KEY (id_pracownika)
+        REFERENCES public."Pracownik" (id_pracownika) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Dyzury"
+    OWNER to postgres;
+
+-- Index: fki_id_pracownika
+
+-- DROP INDEX public.fki_id_pracownika;
+
+CREATE INDEX fki_id_pracownika
+    ON public."Dyzury" USING btree
+    (id_pracownika)
+    TABLESPACE pg_default;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Instruktor"
+
+-- DROP TABLE public."Instruktor";
+
+CREATE TABLE public."Instruktor"
+(
+    id_instruktora integer NOT NULL,
+    badania boolean NOT NULL,
+    data_ostatnich_badan date NOT NULL,
+    CONSTRAINT "Instruktor_pkey" PRIMARY KEY (id_instruktora),
+    CONSTRAINT id_instruktora FOREIGN KEY (id_instruktora)
+        REFERENCES public."Pracownik" (id_pracownika) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Instruktor"
+    OWNER to postgres;
+
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Klient"
+
+-- DROP TABLE public."Klient";
+
+CREATE TABLE public."Klient"
+(
+    id_klienta integer NOT NULL,
+    id_adresu integer NOT NULL,
+    imie character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    nazwisko character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    pelnoletni boolean NOT NULL,
+    CONSTRAINT "Klient_pkey" PRIMARY KEY (id_klienta),
+    CONSTRAINT id_adresu FOREIGN KEY (id_adresu)
+        REFERENCES public."Adres" (id_adresu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Klient"
+    OWNER to postgres;
+
+-- Index: fki_id_adresu
+
+-- DROP INDEX public.fki_id_adresu;
+
+CREATE INDEX fki_id_adresu
+    ON public."Klient" USING btree
+    (id_adresu)
+    TABLESPACE pg_default;
+
+
+----------------------------------------------------------------------------------------
+
+-- Table: public."Konto"
+
+-- DROP TABLE public."Konto";
+
+CREATE TABLE public."Konto"
+(
+    id_konta integer NOT NULL,
+    id_klienta integer NOT NULL,
+    login character varying(24) COLLATE pg_catalog."default" NOT NULL,
+    haslo character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Konto_pkey" PRIMARY KEY (id_konta),
+    CONSTRAINT id_klienta FOREIGN KEY (id_klienta)
+        REFERENCES public."Klient" (id_klienta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Konto"
+    OWNER to postgres;
+
+-- Index: fki_id_klienta
+
+-- DROP INDEX public.fki_id_klienta;
+
+CREATE INDEX fki_id_klienta
+    ON public."Konto" USING btree
+    (id_klienta)
+    TABLESPACE pg_default;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Pakiet"
+
+-- DROP TABLE public."Pakiet";
+
+CREATE TABLE public."Pakiet"
+(
+    id_pakietu integer NOT NULL,
+    id_szkolenia integer,
+    dla_pelnoletnich boolean NOT NULL,
+    bron character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    liczba_strzalow integer NOT NULL,
+    cena double precision NOT NULL,
+    CONSTRAINT "Pakiet_pkey" PRIMARY KEY (id_pakietu),
+    CONSTRAINT id_szkolenia FOREIGN KEY (id_szkolenia)
+        REFERENCES public."Szkolenie" (id_szkolenia) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Pakiet"
+    OWNER to postgres;
+
+-- Index: fki_id_szkolenia
+
+-- DROP INDEX public.fki_id_szkolenia;
+
+CREATE INDEX fki_id_szkolenia
+    ON public."Pakiet" USING btree
+    (id_szkolenia)
+    TABLESPACE pg_default;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Pracownik"
+
+-- DROP TABLE public."Pracownik";
+
+CREATE TABLE public."Pracownik"
+(
+    id_pracownika integer NOT NULL,
+    imie character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    nazwisko character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    stanowisko character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Pracownik_pkey" PRIMARY KEY (id_pracownika)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Pracownik"
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Rezerwacja"
+
+-- DROP TABLE public."Rezerwacja";
+
+CREATE TABLE public."Rezerwacja"
+(
+    id_rezerwacji integer NOT NULL,
+    id_konta integer NOT NULL,
+    id_pakietu integer NOT NULL,
+    data_zamowienia date NOT NULL,
+    CONSTRAINT "Rezerwacja_pkey" PRIMARY KEY (id_rezerwacji),
+    CONSTRAINT id_konta FOREIGN KEY (id_konta)
+        REFERENCES public."Konto" (id_konta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_pakietu FOREIGN KEY (id_pakietu)
+        REFERENCES public."Pakiet" (id_pakietu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Rezerwacja"
+    OWNER to postgres;
+
+-- Index: fki_id_konta
+
+-- DROP INDEX public.fki_id_konta;
+
+CREATE INDEX fki_id_konta
+    ON public."Rezerwacja" USING btree
+    (id_konta)
+    TABLESPACE pg_default;
+
+-- Index: fki_id_pakietu
+
+-- DROP INDEX public.fki_id_pakietu;
+
+CREATE INDEX fki_id_pakietu
+    ON public."Rezerwacja" USING btree
+    (id_pakietu)
+    TABLESPACE pg_default;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Statystyki"
+
+-- DROP TABLE public."Statystyki";
+
+CREATE TABLE public."Statystyki"
+(
+    id_statystyk integer NOT NULL,
+    id_klienta integer NOT NULL,
+    id_broni integer NOT NULL,
+    rodzaj character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    oddane_strzaly integer NOT NULL,
+    wynik integer NOT NULL,
+    data date NOT NULL,
+    CONSTRAINT "Statystyki_pkey" PRIMARY KEY (id_statystyk),
+    CONSTRAINT id_broni FOREIGN KEY (id_broni)
+        REFERENCES public."Bron" (id_broni) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_klienta FOREIGN KEY (id_klienta)
+        REFERENCES public."Klient" (id_klienta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_klienta2 FOREIGN KEY (id_klienta)
+        REFERENCES public."Klient" (id_klienta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Statystyki"
+    OWNER to postgres;
+
+-- Index: fki_id_broni
+
+-- DROP INDEX public.fki_id_broni;
+
+CREATE INDEX fki_id_broni
+    ON public."Statystyki" USING btree
+    (id_broni)
+    TABLESPACE pg_default;
+
+-- Index: fki_id_klientaa
+
+-- DROP INDEX public.fki_id_klientaa;
+
+CREATE INDEX fki_id_klientaa
+    ON public."Statystyki" USING btree
+    (id_klienta)
+    TABLESPACE pg_default;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Szkolenie"
+
+-- DROP TABLE public."Szkolenie";
+
+CREATE TABLE public."Szkolenie"
+(
+    id_szkolenia integer NOT NULL,
+    id_instruktora integer NOT NULL,
+    cena double precision NOT NULL,
+    CONSTRAINT "Szkolenie_pkey" PRIMARY KEY (id_szkolenia),
+    CONSTRAINT id_instruktora FOREIGN KEY (id_instruktora)
+        REFERENCES public."Instruktor" (id_instruktora) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Szkolenie"
+    OWNER to postgres;
+
+-- Index: fki_id_instruktora
+
+-- DROP INDEX public.fki_id_instruktora;
+
+CREATE INDEX fki_id_instruktora
+    ON public."Szkolenie" USING btree
+    (id_instruktora)
+    TABLESPACE pg_default;    
+
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Zawodnik"
+
+-- DROP TABLE public."Zawodnik";
+
+CREATE TABLE public."Zawodnik"
+(
+    id_zawodnika integer NOT NULL,
+    id_druzyny integer NOT NULL,
+    kontrola_lekarska boolean NOT NULL,
+    termin_badan date NOT NULL,
+    CONSTRAINT "Zawodnik_pkey" PRIMARY KEY (id_zawodnika),
+    CONSTRAINT id_druzyny FOREIGN KEY (id_druzyny)
+        REFERENCES public."Druzyna" (id_druzyny) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_zawodnika FOREIGN KEY (id_zawodnika)
+        REFERENCES public."Klient" (id_klienta) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Zawodnik"
+    OWNER to postgres;
+
+-- Index: fki_id_druzyny
+
+-- DROP INDEX public.fki_id_druzyny;
+
+CREATE INDEX fki_id_druzyny
+    ON public."Zawodnik" USING btree
+    (id_druzyny)
+    TABLESPACE pg_default;
+
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Zawody"
+
+-- DROP TABLE public."Zawody";
+
+CREATE TABLE public."Zawody"
+(
+    id_zawodow integer NOT NULL,
+    data date NOT NULL,
+    rodzaj character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    pierwsze_miejsce integer NOT NULL,
+    drugie_miejsce integer NOT NULL,
+    trzecie_miejsce integer NOT NULL,
+    CONSTRAINT "Zawody_pkey" PRIMARY KEY (id_zawodow)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Zawody"
+    OWNER to postgres;
+
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Zawody_grupowe"
+
+-- DROP TABLE public."Zawody_grupowe";
+
+CREATE TABLE public."Zawody_grupowe"
+(
+    id_druzyny integer NOT NULL,
+    id_zawodow integer NOT NULL,
+    CONSTRAINT "Zawody_grupowe_pkey" PRIMARY KEY (id_druzyny, id_zawodow),
+    CONSTRAINT id_druzyny FOREIGN KEY (id_druzyny)
+        REFERENCES public."Druzyna" (id_druzyny) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_zawodow FOREIGN KEY (id_druzyny)
+        REFERENCES public."Zawody" (id_zawodow) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_zawodow2 FOREIGN KEY (id_zawodow)
+        REFERENCES public."Zawody" (id_zawodow) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Zawody_grupowe"
+    OWNER to postgres;
+
+-- Index: fki_id_zawodow2
+
+-- DROP INDEX public.fki_id_zawodow2;
+
+CREATE INDEX fki_id_zawodow2
+    ON public."Zawody_grupowe" USING btree
+    (id_zawodow)
+    TABLESPACE pg_default;
+
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public."Zawody_indywidualne"
+
+-- DROP TABLE public."Zawody_indywidualne";
+
+CREATE TABLE public."Zawody_indywidualne"
+(
+    id_zawodnika integer NOT NULL,
+    id_zawodow integer NOT NULL,
+    CONSTRAINT "Zawody_indywidualne_pkey" PRIMARY KEY (id_zawodnika, id_zawodow),
+    CONSTRAINT id_zawodnika FOREIGN KEY (id_zawodnika)
+        REFERENCES public."Zawodnik" (id_zawodnika) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_zawodow FOREIGN KEY (id_zawodow)
+        REFERENCES public."Zawody" (id_zawodow) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."Zawody_indywidualne"
+    OWNER to postgres;
+
+-- Index: fki_id_zawodnika
+
+-- DROP INDEX public.fki_id_zawodnika;
+
+CREATE INDEX fki_id_zawodnika
+    ON public."Zawody_indywidualne" USING btree
+    (id_zawodnika)
+    TABLESPACE pg_default;
+
+-- Index: fki_id_zawodow
+
+-- DROP INDEX public.fki_id_zawodow;
+
+CREATE INDEX fki_id_zawodow
+    ON public."Zawody_indywidualne" USING btree
+    (id_zawodow)
+    TABLESPACE pg_default;
+
+
+----------------------------------------------------------------------------------------
+
+
+
+2a Kwerendy proste
+
+
+-- 1.Sprawdzanie, którzy klienci mają login zaczynający się na literę h
+
+-- View: public.kwerenda_1_prosta
+
+-- DROP VIEW public.kwerenda_1_prosta;
+CREATE OR REPLACE VIEW public.kwerenda_1_prosta AS
+ SELECT kl.id_klienta,
+    ko.login,
+    kl.imie,
+    kl.nazwisko
+   FROM "Klient" kl,
+    "Konto" ko
+  WHERE kl.id_klienta = ko.id_klienta AND ko.login::text ~~ 'h%'::text
+  ORDER BY kl.id_klienta;
+
+ALTER TABLE public.kwerenda_1_prosta
+    OWNER TO postgres;
+
+
+-- 2.Sprawdzanie, którzy instruktorzy (będący pracownikami) mieli badania między 10 i 25 styczniem    
+-- View: public.kwerenda_2_prosta
+
+-- DROP VIEW public.kwerenda_2_prosta;
+
+CREATE OR REPLACE VIEW public.kwerenda_2_prosta AS
+ SELECT i.id_instruktora,
+    p.imie,
+    p.nazwisko,
+    p.stanowisko,
+    i.badania,
+    i.data_ostatnich_badan
+   FROM "Instruktor" i,
+    "Pracownik" p
+  WHERE i.id_instruktora = p.id_pracownika AND i.data_ostatnich_badan >= '2018-01-10'::date AND i.data_ostatnich_badan <= '2018-01-25'::date
+  ORDER BY i.data_ostatnich_badan;
+
+ALTER TABLE public.kwerenda_2_prosta
+    OWNER TO postgres; 
+
+-- 3.Sprawdzanie, ile razy poszczególny zawodnik zajął 3 miejsce w zawodach 
+-- View: public.kwerenda_3_prosta
+
+-- DROP VIEW public.kwerenda_3_prosta;
+
+CREATE OR REPLACE VIEW public.kwerenda_3_prosta AS
+ SELECT z1.id_zawodnika,
+    z3.trzecie_miejsce
+   FROM "Zawodnik" z1,
+    "Zawody_indywidualne" z2,
+    "Zawody" z3
+  WHERE z1.id_zawodnika = z2.id_zawodnika AND z2.id_zawodow = z3.id_zawodow AND z3.trzecie_miejsce > 1155849836
+  ORDER BY z1.id_zawodnika DESC;
+
+ALTER TABLE public.kwerenda_3_prosta
+    OWNER TO postgres;
+
+-- 4.Sprawdzanie, którzy klienci będący zawodnikami mają numer telefonu zaczynający się na 7
+-- View: public.kwerenda_4_prosta
+
+-- DROP VIEW public.kwerenda_4_prosta;
+
+CREATE OR REPLACE VIEW public.kwerenda_4_prosta AS
+ SELECT k.id_klienta,
+    k.imie,
+    k.nazwisko,
+    a.tel_kontaktowy
+   FROM "Klient" k,
+    "Adres" a,
+    "Zawodnik" z
+  WHERE k.id_adresu = a.id_adresu AND k.id_klienta = z.id_zawodnika AND a.tel_kontaktowy::text ~~ '7%'::text
+  ORDER BY k.id_klienta;
+
+ALTER TABLE public.kwerenda_4_prosta
+    OWNER TO postgres;
+
+-- 5.Sprawdzanie, klientów korzystających z obecnie niedostepnej broni, której nazwa zaczyna się na m, a ilość strzałów jest mniejsza niż 1905137623 
+-- View: public.kwerenda_5_prosta
+
+-- DROP VIEW public.kwerenda_5_prosta;
+
+CREATE OR REPLACE VIEW public.kwerenda_5_prosta AS
+ SELECT k.id_klienta,
+    k.imie,
+    k.nazwisko,
+    b.nazwa,
+    b.dostepnosc,
+    s.oddane_strzaly
+   FROM "Klient" k,
+    "Statystyki" s,
+    "Bron" b
+  WHERE k.id_klienta = s.id_klienta AND s.id_broni = b.id_broni AND b.nazwa::text ~~ '%m'::text AND b.dostepnosc = false AND s.oddane_strzaly < 1905137623
+  ORDER BY k.nazwisko;
+
+ALTER TABLE public.kwerenda_5_prosta
+    OWNER TO postgres;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2b Kwerendy złożone
+
+-- 1. Sprawdzanie, którzy instruktorzy niemający badań, szkolą klientów za cenę poniżej 2000 
+-- View: public.kwerenda_1_zlozona
+
+-- DROP VIEW public.kwerenda_1_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_1_zlozona AS
+ SELECT "Instruktor".id_instruktora
+   FROM "Instruktor"
+  WHERE "Instruktor".badania = false AND ("Instruktor".id_instruktora IN ( SELECT "Szkolenie".id_instruktora
+           FROM "Szkolenie"
+          WHERE "Szkolenie".cena < 2000::double precision AND ("Szkolenie".id_szkolenia IN ( SELECT "Pakiet".id_szkolenia
+                   FROM "Pakiet"
+                  WHERE ("Pakiet".id_pakietu IN ( SELECT "Rezerwacja".id_pakietu
+                           FROM "Rezerwacja"
+                          WHERE ("Rezerwacja".id_konta IN ( SELECT "Konto".id_konta
+                                   FROM "Konto"
+                                  WHERE ("Konto".id_klienta IN ( SELECT "Klient".id_klienta
+   FROM "Klient"))))))))));
+
+ALTER TABLE public.kwerenda_1_zlozona
+    OWNER TO postgres;
+
+-- 2. Sprawdzanie, którzy zawodnicy między 15 grudnia 2017 a 5 stycznia 2018 korzystali z dostepnej broni
+-- View: public.kwerenda_2_zlozona
+
+-- DROP VIEW public.kwerenda_2_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_2_zlozona AS
+ SELECT "Zawodnik".id_zawodnika
+   FROM "Zawodnik"
+  WHERE "Zawodnik".kontrola_lekarska = true AND ("Zawodnik".id_zawodnika IN ( SELECT "Klient".id_klienta
+           FROM "Klient"
+          WHERE ("Klient".id_klienta IN ( SELECT "Statystyki".id_broni
+                   FROM "Statystyki"
+                  WHERE "Statystyki".data >= '2017-12-15'::date AND "Statystyki".data <= '2018-01-05'::date AND ("Statystyki".id_broni IN ( SELECT "Bron".id_broni
+                           FROM "Bron"
+                          WHERE "Bron".dostepnosc = true))))))
+  ORDER BY "Zawodnik".id_zawodnika;
+
+ALTER TABLE public.kwerenda_2_zlozona
+    OWNER TO postgres;
+
+-- 3. Sprawdzanie, którzy zawodnicy mający temin badan między 31 grudnia 2017 a 10 styczniem 2018 zajeli drugie miejsce mniej niż 1893367395 razy
+-- View: public.kwerenda_3_zlozona
+
+-- DROP VIEW public.kwerenda_3_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_3_zlozona AS
+ SELECT "Zawodnik".id_zawodnika,
+    "Zawodnik".id_druzyny
+   FROM "Zawodnik"
+  WHERE "Zawodnik".termin_badan >= '2017-12-31'::date AND "Zawodnik".termin_badan <= '2018-01-10'::date AND ("Zawodnik".id_druzyny IN ( SELECT "Druzyna".id_druzyny
+           FROM "Druzyna"
+          WHERE ("Druzyna".id_druzyny IN ( SELECT "Zawody_grupowe".id_zawodow
+                   FROM "Zawody_grupowe"
+                  WHERE ("Zawody_grupowe".id_zawodow IN ( SELECT "Zawody".id_zawodow
+                           FROM "Zawody"
+                          WHERE "Zawody".drugie_miejsce <= 1893367395))))));
+
+ALTER TABLE public.kwerenda_3_zlozona
+    OWNER TO postgres;
+
+-- 4. Sprawdzanie id_rezerwacji dotyczących pracowników, których stanowisko rozpoczyna się na ins     
+-- View: public.kwerenda_4_zlozona
+
+-- DROP VIEW public.kwerenda_4_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_4_zlozona AS
+ SELECT r.id_rezerwacji,
+    k.login,
+    r.data_zamowienia,
+    prac.stanowisko
+   FROM "Rezerwacja" r
+     JOIN "Konto" k ON r.id_konta = k.id_konta
+     JOIN "Pakiet" pak ON r.id_pakietu = pak.id_pakietu
+     JOIN "Szkolenie" sz ON pak.id_szkolenia = sz.id_szkolenia
+     JOIN "Instruktor" i ON sz.id_instruktora = i.id_instruktora
+     JOIN "Pracownik" prac ON i.id_instruktora = prac.id_pracownika AND prac.stanowisko::text ~~ 'ins%'::text
+  ORDER BY r.id_rezerwacji;
+
+ALTER TABLE public.kwerenda_4_zlozona
+    OWNER TO postgres;
+
+-- 5. imiona i nazwiska zawodników, którzy zajeli 1 miejsce więcej niż 119447075 
+-- View: public.kwerenda_5_zlozona
+
+-- DROP VIEW public.kwerenda_5_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_5_zlozona AS
+ SELECT k.id_klienta,
+    k.imie,
+    k.nazwisko,
+    zaw.pierwsze_miejsce,
+    k.pelnoletni
+   FROM "Klient" k
+     JOIN "Zawodnik" z ON k.id_klienta = z.id_zawodnika
+     JOIN "Zawody_indywidualne" zi ON z.id_zawodnika = zi.id_zawodnika
+     JOIN "Zawody" zaw ON zi.id_zawodow = zaw.id_zawodow
+  GROUP BY k.id_klienta, zaw.pierwsze_miejsce
+ HAVING zaw.pierwsze_miejsce > 119447075
+  ORDER BY zaw.pierwsze_miejsce;
+
+ALTER TABLE public.kwerenda_5_zlozona
+    OWNER TO postgres;
+
+-- 6. nazwy druzyny ktore brały udział w zawodach zaczynającej się na MW
+-- View: public.kwerenda_6_zlozona
+
+-- DROP VIEW public.kwerenda_6_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_6_zlozona AS
+ SELECT d.id_druzyny,
+    d.nazwa,
+    d.imie_trenera,
+    z.rodzaj
+   FROM "Druzyna" d
+     JOIN "Zawody_grupowe" zg ON d.id_druzyny = zg.id_druzyny
+     JOIN "Zawody" z ON zg.id_zawodow = z.id_zawodow AND z.rodzaj::text ~~ 'MW%'::text
+  ORDER BY d.id_druzyny;
+
+ALTER TABLE public.kwerenda_6_zlozona
+    OWNER TO postgres;
+
+-- 7. Szkolenia prowadzone przez instruktorow
+-- View: public.kwerenda_7_zlozona
+
+-- DROP VIEW public.kwerenda_7_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_7_zlozona AS
+ SELECT sz.id_szkolenia,
+    p.imie,
+    p.nazwisko,
+    i.data_ostatnich_badan
+   FROM "Szkolenie" sz
+     JOIN "Instruktor" i ON sz.id_instruktora = i.id_instruktora
+     JOIN "Pracownik" p ON i.id_instruktora = p.id_pracownika
+  ORDER BY p.imie;
+
+ALTER TABLE public.kwerenda_7_zlozona
+    OWNER TO postgres;
+
+
+-- 8. id_konta oraz login klienta ktory strzelał z broni ^*Tm
+-- View: public.kwerenda_8_zlozona
+
+-- DROP VIEW public.kwerenda_8_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_8_zlozona AS
+ SELECT ko.id_konta,
+    ko.login,
+    ( SELECT b.nazwa
+           FROM "Bron" b
+          WHERE b.nazwa::text = '^*Tm'::text) AS n
+   FROM "Konto" ko
+  WHERE (ko.id_klienta IN ( SELECT k.id_klienta
+           FROM "Klient" k
+          WHERE (k.id_klienta IN ( SELECT s.id_klienta
+                   FROM "Statystyki" s
+                  WHERE (s.id_broni IN ( SELECT b.id_broni
+                           FROM "Bron" b
+                          WHERE (b.nazwa::text IN ( SELECT b_1.nazwa
+                                   FROM "Bron" b_1
+                                  WHERE b_1.nazwa::text = '^*Tm'::text))))))));
+
+ALTER TABLE public.kwerenda_8_zlozona
+    OWNER TO postgres;
+
+
+-- 9. Imiona i nazwiska klientow ktorzy korzystali z pakietow dla nieletnich
+-- View: public.kwerenda_9_zlozona
+
+-- DROP VIEW public.kwerenda_9_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_9_zlozona AS
+ SELECT k.id_klienta,
+    k.imie,
+    k.nazwisko,
+    p.dla_pelnoletnich
+   FROM "Klient" k
+     JOIN "Konto" ko USING (id_klienta)
+     JOIN "Rezerwacja" r USING (id_konta)
+     JOIN "Pakiet" p USING (id_pakietu)
+  WHERE p.dla_pelnoletnich = false
+  ORDER BY k.id_klienta;
+
+ALTER TABLE public.kwerenda_9_zlozona
+    OWNER TO postgres;
+
+
+-- 10. Zawodnicy, ktorych termin badan wypada przed zawodami odbywającymi się 10 stycznia 2018
+-- View: public.kwerenda_10_zlozona
+
+-- DROP VIEW public.kwerenda_10_zlozona;
+
+CREATE OR REPLACE VIEW public.kwerenda_10_zlozona AS
+ SELECT data1.id_zawodnika,
+    data1.d1
+   FROM ( SELECT zaw1.id_zawodnika,
+            zaw1.termin_badan AS d1
+           FROM "Zawodnik" zaw1
+             JOIN "Zawody_indywidualne" zi1 USING (id_zawodnika)
+             JOIN "Zawody" z1 USING (id_zawodow)) data1
+     CROSS JOIN ( SELECT zaw2.data AS d2
+           FROM "Zawody" zaw2
+             JOIN "Zawody_indywidualne" zi2 USING (id_zawodow)
+             JOIN "Zawodnik" z2 USING (id_zawodnika)) data2
+  GROUP BY data1.id_zawodnika, data1.d1
+ HAVING data1.d1 < '2018-01-10'::date
+  ORDER BY data1.d1;
+
+ALTER TABLE public.kwerenda_10_zlozona
+    OWNER TO postgres;
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.Wyzwalacze
+
+create trigger zapisz_zmiany_klient
+after insert or update or delete
+on public."Klient" for each row
+execute procedure public.zmiany_klient()
+
+
+create trigger zapisz_zmiany_zawody
+after insert or update or delete
+on public."Zawody" for each row
+execute procedure public.zmiany_zawody()
+
+
+create trigger zapisz_czempion
+after update
+on public."Zawody" for each row
+when (NEW.pierwsze_miejsce IS NOT NULL AND NEW.drugie_miejsce IS NOT NULL AND NEW.trzecie_miejsce IS NOT NULL)
+execute procedure public.hala_slawy()
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.Funkcje
+
+
+create or replace function zmiany_klient() returns trigger as
+$$
+begin
+
+   if(tg_op = 'INSERT') then
+     insert into logi_klient values (NEW.id_klienta, null, NEW.id_adresu, null, NEW.imie, null, NEW.nazwisko, null, NEW.pelnoletni);
+     return NEW;
+   
+   elsif(tg_op = 'UPDATE') then
+     insert into logi_klient values (NEW.id_klienta, OLD.id_adresu, NEW.id_adresu, OLD.imie, NEW.imie, OLD.nazwisko, NEW.nazwisko, OLD.pelnoletni, NEW.pelnoletni);
+     return NEW;
+
+   elsif(tg_op = 'DELETE') then
+     insert into logi_klient values (OLD.id_klienta, OLD.id_adresu, null, OLD.imie, null, OLD.nazwisko, null, OLD.pelnoletni, null); 
+     return OLD;
+   end if;  
+
+   return null;
+
+end;  
+$$
+language 'plpgsql';
+
+
+
+create or replace function zmiany_zawody() returns trigger as
+$$
+begin
+
+   if(tg_op = 'INSERT') then
+     insert into logi_zawody values (NEW.id_zawodow, null, NEW.data, null, NEW.rodzaj, null, null, null);
+     return NEW;
+   
+   elsif(tg_op = 'UPDATE') then
+     insert into logi_zawody values (NEW.id_zawodow, OLD.data, NEW.data, OLD.rodzaj, NEW.rodzaj, NEW.pierwsze_miejsce, NEW.drugie_miejsce, NEW.trzecie_miejsce);
+     return NEW;
+
+   elsif(tg_op = 'DELETE') then
+     insert into logi_zawody values (OLD.id_zawodow, OLD.data, null, OLD.rodzaj, null, OLD.pierwsze_miejsce, OLD.drugie_miejsce, OLD.trzecie_miejsce); 
+     return OLD;
+   end if;  
+
+   return null;
+
+end;  
+$$
+language 'plpgsql';
+
+
+
+
+create or replace function hala_slawy() returns trigger as
+$$
+begin  
+    insert into hala select imie,nazwisko from public."Klient" where id_klienta = NEW.pierwsze_miejsce;
+    insert into hala select imie,nazwisko from public."Klient" where id_klienta = NEW.drugie_miejsce;
+    insert into hala select imie,nazwisko from public."Klient" where id_klienta = NEW.trzecie_miejsce;
+    return NEW;
+end;
+$$
+language 'plpgsql';
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
