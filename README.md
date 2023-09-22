@@ -79,4 +79,5 @@ Functionality summary:
      1. Organization of the competition
      1. Competition registration
      1. Change of the competition date
-     1. Team Registration
+     1. Team Registration 
+
