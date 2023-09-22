@@ -91,10 +91,9 @@ Functionality summary:
     1. Adding/removing weapons
     1. Adding/removing shooting packages
     1. Adding/removing services
-
+    
 Equipment maintenance
     1. Ordering cartridges, shooting targets and mannequins
     1. Sending weapons for technical inspection
 
-
-
+    
