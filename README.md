@@ -93,8 +93,8 @@ Functionality summary:
     1. Adding/removing services
 
 Equipment maintenance
-    2. Ordering cartridges, shooting targets and mannequins
-    2. Sending weapons for technical inspection
+    1. Ordering cartridges, shooting targets and mannequins
+    1. Sending weapons for technical inspection
 
 
 
