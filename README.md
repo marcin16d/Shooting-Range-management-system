@@ -87,14 +87,14 @@ Player registration
     and placing orders for the smooth operation of the shooting range.
 
 Functionality summary:
-    1.1 Modification of the offer
-    1.2 Adding/removing weapons
-    1.3 Adding/removing shooting packages
-    1.4 Adding/removing services
+    1. Modification of the offer
+    1. Adding/removing weapons
+    1. Adding/removing shooting packages
+    1. Adding/removing services
 
 Equipment maintenance
-    2.1 Ordering cartridges, shooting targets and mannequins
-    2.2 Sending weapons for technical inspection
+    2. Ordering cartridges, shooting targets and mannequins
+    2. Sending weapons for technical inspection
 
 
 
