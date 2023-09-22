@@ -75,3 +75,8 @@ Functionality summary:
    A team of 4 Competitors may register - and take part - in competitions organized by the Manager.
    The manager may supervise the course of the competition. 
 
+   Functionality summary:
+     1. Organization of the competition
+     1. Competition registration
+     1. Change of the competition date
+     1. Team Registration
