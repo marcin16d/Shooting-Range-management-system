@@ -86,14 +86,14 @@ Player registration
     The manager has the ability to modify the shooting range's offer,
     and placing orders for the smooth operation of the shooting range.
 
-Functionality summary:
+Functionality summary
     1. Modification of the offer
-    1. Adding/removing weapons
-    1. Adding/removing shooting packages
-    1. Adding/removing services
+    2. Adding/removing weapons
+    3. Adding/removing shooting packages
+    4. Adding/removing services
     
 Equipment maintenance
     1. Ordering cartridges, shooting targets and mannequins
-    1. Sending weapons for technical inspection
+    2. Sending weapons for technical inspection
 
     
