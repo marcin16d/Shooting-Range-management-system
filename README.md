@@ -72,6 +72,8 @@ Functionality summary:
      * Presentation of shooting packages
      * Presentation of shooting range rental services
      
+ 
+     
 **3) Support for sports competitions**
 
    A team of 4 Competitors may register - and take part - in competitions organized by the Manager.
