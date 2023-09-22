@@ -52,6 +52,7 @@ He takes part in shooting competitions in groups of 4. His data is collected in 
       The customer can manage his or her personal profile.
 
 Functionality summary:
+
     * Registration
     * Customer registration
     * Login
