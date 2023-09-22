@@ -61,3 +61,6 @@ Functionality summary:
    * Password change
    * Viewing the history of purchased packages
    * Preview of shot history and statistics
+
+hvfhgfhgfhgghfhgfhgfgh
+vjvjhjjhu7vy
