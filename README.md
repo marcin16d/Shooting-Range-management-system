@@ -12,20 +12,40 @@ Before choosing a package, the customer must provide his or her personal data.
 He does not directly select the weapon he wants to shoot with because the choice of weapon depends on the selected package.
 The instructor is assigned to the client automatically. It is possible that the client will not be able to use the shooting range, e.g. due to competitions taking place.
 
-     • Can choose one of many available packages
-     • If he is at the shooting range for the first time, he creates his own account
-     • You have the right to update your account details
-     • May benefit from advanced levels of training
-     • If the customer is a minor, the selection of packages is limited
+     * Can choose one of many available packages
+     * If he is at the shooting range for the first time, he creates his own account
+     * You have the right to update your account details
+     * May benefit from advanced levels of training
+     * If the customer is a minor, the selection of packages is limited
 
 3) **Seller** - Seller presents available packages to the customer and sells them for a specific price.
 Checks customer data and enters it into the database. Based on them, it presents available packages to him.
 It can remove and, if necessary, correct errors existing in the database.
 
-     • Provides information about the available offer
-     • Sells available packages to customers
-     • Enters customer data into the database
-     • Informs the client about the assigned instructor
-     • Manages the shooting range database
+     * Provides information about the available offer
+     * Sells available packages to customers
+     * Enters customer data into the database
+     * Informs the client about the assigned instructor
+     * Manages the shooting range database
+
+3) **Instructor** – Explains to the client the rules of using the shooting range. How to load and aim a gun.
+Responsible for initial client training. She teaches him how to use weapons safely. More advanced training is possible.
+
+     * It is automatically assigned to the customer
+     * Familiarizes the client with the rules applicable at the shooting range
+     * Assists client through basic firearms training
+     * At the client's request, he provides advanced training in using weapons for an additional fee.
+
+4) **Competitor** – Part of a 4-person team. He can participate in training under the supervision of his trainer. 
+For players, the price for participating in training is reduced. 
+He takes part in shooting competitions in groups of 4. His data is collected in a database.
+
+     * Participates in his team's training sessions
+     * The weapon he uses depends on the rules of the competition
+     * The team coach is responsible for the training and preparation of players.
+
+
+
+
 
 
