@@ -52,14 +52,14 @@ He takes part in shooting competitions in groups of 4. His data is collected in 
       The customer can manage his or her personal profile.
 
 Functionality summary:
-     * Registration
-     * Customer registration
-     * Login
-     * Customer login
-     * Personal profile management
-     * Password change
-     * Viewing the history of purchased packages
-     * Preview of shot history and statistics
+    * Registration
+    * Customer registration
+    * Login
+    * Customer login
+    * Personal profile management
+    * Password change
+    * Viewing the history of purchased packages
+    * Preview of shot history and statistics
 
 **2) Presentation of the shooting range offer**
       Module description:
