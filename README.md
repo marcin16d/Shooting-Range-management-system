@@ -52,7 +52,6 @@ He takes part in shooting competitions in groups of 4. His data is collected in 
       The customer can manage his or her personal profile.
 
 Functionality summary:
-    
    * Registration 
    * Customer registration
    * Login
@@ -63,17 +62,14 @@ Functionality summary:
    * Preview of shot history and statistics
 
 **2) Presentation of the shooting range offer**
-
-   The customer can browse available weapons, shooting packages and other services and check detailed information
-
-   Functionality summary:
-     * Presentation of the shooting range offer
-     * Presentation of available weapons and their price lists
-     * Presentation of shooting packages
-     * Presentation of shooting range rental services
-     
+      The customer can browse available weapons, shooting packages and other services and check detailed information.
  
-     
+Functionality summary:
+   * Presentation of the shooting range offer
+   * Presentation of available weapons and their price lists
+   * Presentation of shooting packages
+   * Presentation of shooting range rental services
+  
 **3) Support for sports competitions**
 
    A team of 4 Competitors may register - and take part - in competitions organized by the Manager.
