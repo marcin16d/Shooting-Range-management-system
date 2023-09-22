@@ -45,7 +45,56 @@ He takes part in shooting competitions in groups of 4. His data is collected in 
      * The team coach is responsible for the training and preparation of players.
 
 
+# III. Function identification
 
+**1) Customer management**
+      The system allows you to create unique accounts for customers.
+      The customer can manage his or her personal profile.
+
+Functionality summary:
+     • Registration
+     • Customer registration
+     • Login
+     • Customer login
+     • Personal profile management
+     • Password change
+     • Viewing the history of purchased packages
+     • Preview of shot history and statistics
+
+**2) Presentation of the shooting range offer**
+      Module description:
+      The customer can browse available weapons, shooting packages and more services and check detailed information.
+    
+Functionality summary:
+     • Presentation of the shooting range offer
+     • Presentation of available weapons and their price lists
+     • Presentation of shooting packages
+     • Presentation of shooting range rental services
+    
+**3) Support for sports competitions**   
+     Module description: A team of 4 Competitors may register - and take part - in competitions organized by the Manager.
+     The manager may supervise the course of the competition.
+
+Functionality summary:
+    * Competition registration 
+    * Change of competition date
+    * Team Registration
+
+Player registration
+
+**4) Shooting range management**
+    The manager has the ability to modify the shooting range's offer,
+    and placing orders for the smooth operation of the shooting range.
+
+Functionality summary:
+    1.1 Modification of the offer
+    1.2 Adding/removing weapons
+    1.3 Adding/removing shooting packages
+    1.4 Adding/removing services
+
+Equipment maintenance
+    2.1 Ordering cartridges, shooting targets and mannequins
+    2.2 Sending weapons for technical inspection
 
 
 
